@@ -4,12 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Elementle - Guess the Element Word</title>
+  <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.5/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tile {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.1rem;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+<body class="bg-light d-flex justify-content-center align-items-center min-vh-100">
   <div id="root"></div>
   <script type="text/babel">
     const VALID_ELEMENTS = ['H', 'He', 'Li', 'Be', 'B', 'C', 'N', 'O', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar', 'K', 'Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge', 'As', 'Se', 'Br', 'Kr', 'Rb', 'Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn', 'Sb', 'Te', 'I', 'Xe', 'Cs', 'Ba', 'La', 'Ce', 'Pr', 'Nd', 'Pm', 'Sm', 'Eu', 'Gd', 'Tb', 'Dy', 'Ho', 'Er', 'Tm', 'Yb', 'Lu', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 'Pb', 'Bi', 'Po', 'At', 'Rn', 'Fr', 'Ra', 'Ac', 'Th', 'Pa', 'U', 'Np', 'Pu', 'Am', 'Cm', 'Bk', 'Cf', 'Es', 'Fm', 'Md', 'No', 'Lr'];
@@ -25,7 +32,7 @@
         guesses: Array(6).fill().map(() => Array(5).fill('')),
         feedback: Array(6).fill().map(() => Array(5).fill('⬛')),
         currentRow: 0,
-        answer: VALID_WORDS[0].elements, // Default answer
+        answer: VALID_WORDS[0].elements,
         gameOver: false,
         won: false
       });
@@ -72,7 +79,7 @@
       };
 
       const handleAdminLogin = () => {
-        if (adminPassword === 'admin123') { // Hardcoded for simplicity
+        if (adminPassword === 'admin123') {
           setAdminMode(true);
           setError('');
         } else {
@@ -100,27 +107,27 @@
       };
 
       return (
-        <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-lg">
-          <h1 className="text-3xl font-bold text-center mb-4">Elementle</h1>
+        <div className="container-md p-4 bg-white rounded shadow">
+          <h1 className="h3 fw-bold text-center mb-4">Elementle</h1>
           {adminMode ? (
             <div className="mb-4">
-              <h2 className="text-xl font-semibold mb-2">Admin: Set Answer</h2>
+              <h2 className="h5 fw-semibold mb-2">Admin: Set Answer</h2>
               <input
                 type="text"
                 value={newAnswer}
                 onChange={(e) => setNewAnswer(e.target.value)}
                 placeholder="Enter new answer (e.g., CaFeINe)"
-                className="w-full p-2 border rounded mb-2"
+                className="w-100 p-2 border rounded mb-2"
               />
               <button
                 onClick={handleSetAnswer}
-                className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+                className="w-100 btn btn-success p-2"
               >
                 Set Answer
               </button>
               <button
                 onClick={() => setAdminMode(false)}
-                className="w-full bg-gray-500 text-white p-2 rounded mt-2 hover:bg-gray-600"
+                className="w-100 btn btn-secondary p-2 mt-2"
               >
                 Exit Admin Mode
               </button>
@@ -130,26 +137,26 @@
               <div className="mb-4">
                 <button
                   onClick={() => setShowPeriodicTable(!showPeriodicTable)}
-                  className="w-full bg-blue-500 text-white p-2 rounded mb-2 hover:bg-blue-600"
+                  className="w-100 btn btn-primary p-2 mb-2"
                 >
                   {showPeriodicTable ? 'Hide' : 'Show'} Periodic Table
                 </button>
                 {showPeriodicTable && (
-                  <div className="grid grid-cols-18 gap-1 text-xs p-2 bg-gray-200 rounded">
+                  <div className="row row-cols-6 g-1 text-xs p-2 bg-light rounded">
                     {VALID_ELEMENTS.map((elem) => (
-                      <div key={elem} className="bg-white p-1 text-center rounded">
+                      <div key={elem} className="col bg-white p-1 text-center rounded">
                         {elem}
                       </div>
                     ))}
                   </div>
                 )}
               </div>
-              <div className="grid grid-cols-5 gap-2 mb-4">
+              <div className="row row-cols-5 g-2 mb-4">
                 {gameState.guesses.map((row, rowIndex) => (
                   row.map((tile, colIndex) => (
                     <div
                       key={`${rowIndex}-${colIndex}`}
-                      className={`w-12 h-12 flex items-center justify-center text-lg font-bold border rounded ${gameState.feedback[rowIndex][colIndex] === '🟩' ? 'bg-green-500 text-white' : gameState.feedback[rowIndex][colIndex] === '🟨' ? 'bg-yellow-500 text-white' : 'bg-gray-300'}`}
+                      className={`tile d-flex align-items-center justify-content-center text-center fw-bold border rounded ${gameState.feedback[rowIndex][colIndex] === '🟩' ? 'bg-success text-white' : gameState.feedback[rowIndex][colIndex] === '🟨' ? 'bg-warning text-white' : 'bg-secondary'}`}
                     >
                       {tile}
                     </div>
@@ -160,13 +167,13 @@
                 <div className="mb-4 text-center">
                   {gameState.won ? (
                     <>
-                      <p className="text-lg font-bold text-green-600">You won!</p>
+                      <p className="text-lg fw-bold text-success">You won!</p>
                       <p>
-                        Text your answer ({gameState.answer.join('')}) to [Your Phone Number] to enter the $20 gift card tournament!
+                        Text your answer ({gameState.answer.join('')}) to 123-456-7890 to enter the $20 gift card tournament!
                       </p>
                     </>
                   ) : (
-                    <p className="text-lg font-bold text-red-600">
+                    <p className="text-lg fw-bold text-danger">
                       Game Over! Answer was {gameState.answer.join('')}.
                     </p>
                   )}
@@ -177,20 +184,20 @@
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Enter guess (e.g., BaCoN)"
-                className="w-full p-2 border rounded mb-2"
+                className="w-100 p-2 border rounded mb-2"
                 disabled={gameState.gameOver}
               />
               <button
                 onClick={handleGuess}
-                className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                className="w-100 btn btn-primary p-2"
                 disabled={gameState.gameOver}
               >
                 Submit Guess
               </button>
-              {error && <p className="text-red-500 mt-2">{error}</p>}
+              {error && <p className="text-danger mt-2">{error}</p>}
               <button
                 onClick={() => setAdminMode('login')}
-                className="w-full bg-gray-500 text-white p-2 rounded mt-2 hover:bg-gray-600"
+                className="w-100 btn btn-secondary p-2 mt-2"
               >
                 Admin Login
               </button>
@@ -198,29 +205,29 @@
           )}
           {adminMode === 'login' && (
             <div className="mt-4">
-              <h2 className="text-xl font-semibold mb-2">Admin Login</h2>
+              <h2 className="h5 fw-semibold mb-2">Admin Login</h2>
               <input
                 type="password"
                 value={adminPassword}
                 onChange={(e) => setAdminPassword(e.target.value)}
                 placeholder="Enter admin password"
-                className="w-full p-2 border rounded mb-2"
+                className="w-100 p-2 border rounded mb-2"
               />
               <button
                 onClick={handleAdminLogin}
-                className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+                className="w-100 btn btn-success p-2"
               >
                 Login
               </button>
             </div>
           )}
           <div className="mt-4 text-sm">
-            <h3 className="font-semibold">Rules:</h3>
+            <h3 className="fw-semibold">Rules:</h3>
             <p>Guess the 5-tile element word in 6 tries. Each guess must spell a real word using valid element symbols.</p>
             <p>🟩: Correct element in correct spot</p>
             <p>🟨: Correct element, wrong spot</p>
             <p>⬛: Not in the answer</p>
-            <p>First correct answer texted to [Your Phone Number] wins a $20 gift card!</p>
+            <p>First correct answer texted to 123-456-7890 wins a $20 gift card!</p>
           </div>
         </div>
       );

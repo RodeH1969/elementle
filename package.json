@@ -1,0 +1,26 @@
+{
+  "name": "elementle",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RodeH1969/elementle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RodeH1969/elementle/issues"
+  },
+  "homepage": "https://github.com/RodeH1969/elementle#readme",
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^4.1.8"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}
